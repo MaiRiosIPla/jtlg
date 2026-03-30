@@ -1,0 +1,72 @@
+[
+    {
+        "comarca": "Camp de Turia",
+        "reto": ""
+    },
+    {
+        "comarca": "Camp de Morvedre",
+        "reto": ""
+    },
+    {
+        "comarca": "Horta Nord",
+        "reto": ""
+    },
+    {
+        "comarca": "Horta Sud",
+        "reto": ""
+    },
+    {
+        "comarca": "Foia de Bunyol",
+        "reto": ""
+    },
+    {
+        "comarca": "Ribera Alta",
+        "reto": ""
+    },
+    {
+        "comarca": "Ribera Baixa",
+        "reto": ""
+    },
+    {
+        "comarca": "Horta Oest",
+        "reto": ""
+    },
+    {
+        "comarca": "Valencia Nord",
+        "reto": ""
+    },
+    {
+        "comarca": "Valencia Sud",
+        "reto": ""
+    },
+    {
+        "comarca": "Albufera",
+        "reto": ""
+    },
+    {
+        "comarca": "La Safor",
+        "reto": ""
+    },
+    {
+        "comarca": "La Costera",
+        "reto": ""
+    },
+    {
+        "comarca": "La Vall d'Albaida",
+        "reto": ""
+    },
+    {
+        "comarca": "La Plana Baixa",
+        "reto": ""
+    },
+    {
+        "comarca": "La Plana Alta",
+        "reto": ""
+    },
+    { 
+        "comarca": "La Llotja de la Seda",
+        "enunciado": "Las Tres Murallas Históricas de Valencia",
+        "reto": "Valencia estuvo protegida por tres murallas distintas a lo largo de su historia.\nTendréis que encontrar y fotografiar un fragmento visible de cada una de las tres murallas.\nAdemás, deberéis atravesar tres puertas diferentes, cada una perteneciente a, al menos, dos murallas distintas, y haceros un selfie justo al pasar por dentro de cada una.\nSolo tenéis un intento para completar el reto. Podéis planificar la ruta, pero todas las fotos deben hacerse durante la prueba. Si no conseguís las tres murallas y las tres puertas correctamente, falláis.",
+        "additionalInfo": "La muralla musulmana tiene puertas en las que sus construcciones no corresponden a la época de construcción de la muralla, sino que son posteriores, siguen siendo válidas como parte de la muralla musulmana."
+    }
+]

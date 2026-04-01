@@ -1,8 +1,8 @@
 [
     {
         "comarca": "Camp de Turia",
-        "enunciado": "Waffle Pong",
-        "reto": "Consigue un gofre y un envase o paquete de comida pequeña que quepa en los agujeros del gofre (piensa en M&M's, ositos de gominola, guisantes, ese tipo de cosas). Coloca el gofre a 2 metros de distancia. Debes conseguir que una unidad de comida pequeña aterrice en cada uno de los agujeros completos del gofre para ganar.\nSolo puedes lanzar cada unidad de comida una vez. Si te quedas sin comida pequeña y no has rellenado el gofre, fracasas.\nIndependientemente del resultado, debes comerte el gofre y todo lo que hayas conseguido meter en él al final del desafío.",
+        "enunciado": "Puntería Fluvial",
+        "reto": "Busca 10 piedras planas y lisas. Desde una orilla de un cauce natural, debes lanzar las piedras intentando que lleguen a la orilla opuesta sin hundirse en el agua. Para completar el desafío, al menos 3 de tus 10 piedras deben llegar al otro lado. Cada piedra solo puede lanzarse una vez. Graba tus lanzamientos como prueba.",
         "additionalInfo": ""
     },
     {
@@ -31,20 +31,20 @@
     },
     {
         "comarca": "Ribera Alta",
-        "enunciado": "",
-        "reto": "",
-        "additionalInfo": ""
+        "enunciado": "Zumo Recién Exprimido",
+        "reto": "La Ribera Alta es famosa por sus naranjas desde el siglo XVIII y es una de las principales productoras de cítricos de España.\nConsigue naranjas frescas y exprime a mano suficientes naranjas para llenar un vaso de 250ml de zumo natural. Graba el proceso de exprimido y bebe el zumo al final.\nSolo puedes usar tus propias manos para exprimirlas.",
+        "additionalInfo": "El cultivo racional de la naranja comenzó en esta comarca en el siglo XVIII y sigue siendo el motor principal de su economía agrícola. Las naranjas valencianas son reconocidas mundialmente por su sabor y calidad."
     },
     {
         "comarca": "Ribera Baixa",
-        "enunciado": "",
-        "reto": "",
+        "enunciado": "Mural de Memoria",
+        "reto": "Visita un lugar emblemático de la comarca. Observa el lugar durante exactamente 5 minutos, memorizando todos los detalles posibles. Luego aléjate del monumento y, sin mirar fotos ni volver a verlo, debes recrear la escena dibujándola. Tienes 30 minutos para completar tu obra. Toma una foto del lugar visitado para luego compararlo con el dibujo terminado.",
         "additionalInfo": ""
     },
     {
         "comarca": "Horta Oest",
-        "enunciado": "",
-        "reto": "",
+        "enunciado": "¿Quién es Quién en el Cielo?",
+        "reto": "Ve al Aeropuerto de Valencia. Durante 30 minutos, observa los aviones que hay. Debes identificar y describir correctamente al menos 5 aviones diferentes sin mencionar explícitamente el nombre de la aerolínea ni textos visibles. Tu compañero debe adivinar la aerolínea basándose solo en tu descripción. Deben acertar al menos 3 de 5 para completar el reto.",
         "additionalInfo": ""
     },
     {
@@ -61,14 +61,14 @@
     },
     {
         "comarca": "Albufera",
-        "enunciado": "",
-        "reto": "",
+        "enunciado": "Recrea una Barraca en miniatura",
+        "reto": "Visita la Albufera de Valencia y observa las barracas tradicionales valencianas. Usando solo materiales naturales que encuentres en el entorno de la Albufera (cañas, juncos, ramas, barro, piedras pequeñas), crea una maqueta de una barraca de al menos 20cm de alto. Debe tener el techo característico a dos aguas. Tienes 45 minutos desde que recoges el primer material. Toma una foto de tu barraca con la Albufera de fondo como prueba.",
         "additionalInfo": ""
     },
     {
         "comarca": "La Safor",
-        "enunciado": "",
-        "reto": "",
+        "enunciado": "Corriente Contra Reloj",
+        "reto": "Busca un arroyo y marca dos puntos del arroyo separados por 50 metros. Antes de empezar, debes calcular cuánto tiempo tardará un objeto flotante en recorrer esa distancia. Luego lanza el objeto y cronometra el tiempo.\nPara completar el desafío, tu estimación debe estar dentro de un margen de error de ±10 segundos. Tienes 3 intentos.",
         "additionalInfo": ""
     },
     {
@@ -79,8 +79,8 @@
     },
     {
         "comarca": "La Vall d'Albaida",
-        "enunciado": "",
-        "reto": "",
+        "enunciado": "Waffle Pong",
+        "reto": "Consigue un gofre y un envase o paquete de comida pequeña que quepa en los agujeros del gofre (piensa en M&M's, ositos de gominola, guisantes, ese tipo de cosas). Coloca el gofre a 2 metros de distancia. Debes conseguir que una unidad de comida pequeña aterrice en cada uno de los agujeros completos del gofre para ganar.\nSolo puedes lanzar cada unidad de comida una vez. Si te quedas sin comida pequeña y no has rellenado el gofre, fracasas.\nIndependientemente del resultado, debes comerte el gofre y todo lo que hayas conseguido meter en él al final del desafío.",
         "additionalInfo": ""
     },
     {

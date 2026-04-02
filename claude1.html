@@ -324,8 +324,19 @@
             
             // If card is already expanded, just collapse it
             if (isExpanded) {
-                card.classList.remove('expanded');
-                gameState.activeChallenge = null;
+                const challenge = data.find(c => c.index === index);
+
+                const confirmed = confirm(
+                    `Estás a punto de cerrar el reto de ${challenge.comarca}. ` +
+                    `Esto contará como reto fallido. ¿Quieres continuar?`
+                );
+
+                if (!confirmed) {
+                    return; // Cancelar cierre
+                }
+
+                // Marcar como fallido
+                failChallenge(index);
                 return;
             }
             
@@ -352,27 +363,59 @@
  
         // Complete a challenge
         function completeChallenge(index) {
-            const wasCompleted = gameState.comarcasStatus[index] === 'completed';
-            
+            const status = gameState.comarcasStatus[index];
+
+            // Bloquear si ya está fallido
+            if (status === 'failed') {
+                alert('Este reto ya ha sido fallado y no puede completarse.');
+
+                // 🔽 Colapsar la tarjeta
+                const card = document.querySelector(`.comarca-card[data-index="${index}"]`);
+                if (card) {
+                    card.classList.remove('expanded');
+                }
+                gameState.activeChallenge = null;
+
+                return;
+            }
+
+            const wasCompleted = status === 'completed';
+
             if (!wasCompleted) {
                 gameState.conquistadas++;
             }
-            
+
             gameState.comarcasStatus[index] = 'completed';
-            
+
             // Collapse the card
             const card = document.querySelector(`.comarca-card[data-index="${index}"]`);
             if (card) {
                 card.classList.remove('expanded');
             }
             gameState.activeChallenge = null;
-            
+
             updateStats();
             renderComarcaList();
         }
  
         // Fail a challenge
         function failChallenge(index) {
+            const status = gameState.comarcasStatus[index];
+
+            // Si ya está fallado, no hacer nada
+            if (status === 'failed') {
+                alert('Este reto ya ha sido marcado como fallido.');
+
+                // Colapsar si estaba abierto
+                const card = document.querySelector(`.comarca-card[data-index="${index}"]`);
+                if (card) {
+                    card.classList.remove('expanded');
+                }
+                gameState.activeChallenge = null;
+
+                return;
+            }
+
             gameState.comarcasStatus[index] = 'failed';
             
             // Collapse the card

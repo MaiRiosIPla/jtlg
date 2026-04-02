@@ -9,17 +9,26 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+
+            --red_color: #dc3545;
+            --background_color: #e0e0e0;
+            --white_color: #f5f5f5;
+            --jet_lag_black: #2c3e50;
+            --blue_color: #15427D;
+            --yellow_color: #ffc107;
+            --green_color: #28a745;
+            --border_radius: 16px;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #f5f5f5;
+            background-color: var(--background_color);
             padding: 0;
         }
 
         .header {
-            background-color: #dc3545;
-            color: white;
+            background-color: var(--red_color);
+            color: var(--white_color);
             text-align: center;
             padding: 30px 20px;
             font-size: 32px;
@@ -33,9 +42,9 @@
         }
 
         .status-card {
-            background: linear-gradient(135deg, #1e4d8b 0%, #2d5a9e 100%);
-            color: white;
-            border-radius: 20px;
+            background: var(--blue_color);
+            color: var(--white_color);
+            border-radius: var(--border_radius);
             padding: 50px 30px;
             text-align: center;
             margin-bottom: 20px;
@@ -54,8 +63,8 @@
         }
 
         .camp-card {
-            background-color: #dc3545;
-            border-radius: 20px;
+            background-color: var(--red_color);
+            border-radius: var(--border_radius);
             padding: 0;
             margin-bottom: 20px;
             overflow: hidden;
@@ -68,7 +77,7 @@
         }
 
         .camp-header {
-            background-color: #dc3545;
+            background-color: var(--red_color);
             color: black;
             text-align: center;
             padding: 25px 20px;
@@ -77,19 +86,19 @@
         }
 
         .camp-content {
-            background-color: white;
+            background-color: var(--white_color);
             padding: 40px 30px;
         }
 
         .camp-content h3 {
-            color: #2c3e50;
+            color: var(--jet_lag_black);
             font-size: 28px;
             margin-bottom: 25px;
             font-weight: 600;
         }
 
         .camp-content .reto-text {
-            color: #2c3e50;
+            color: var(--jet_lag_black);
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 20px;
@@ -103,8 +112,8 @@
             line-height: 1.5;
             margin-bottom: 30px;
             padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #ffc107;
+            background-color: var(--white_color);
+            border-left: 4px solid var(--yellow_color);
             border-radius: 4px;
         }
 
@@ -131,21 +140,21 @@
         }
 
         .btn-fallar {
-            background-color: #ffc107;
-            color: #2c3e50;
+            background-color: var(--yellow_color);
+            color: var(--jet_lag_black);
         }
 
         .btn-completar {
-            background-color: #1e4d8b;
-            color: white;
+            background-color: var(--blue_color);
+            color: var(--white_color);
         }
 
         .comarca-button {
-            background-color: #dc3545;
-            color: white;
+            background-color: var(--red_color);
+            color: var(--white_color);
             text-align: center;
             padding: 30px 20px;
-            border-radius: 20px;
+            border-radius: var(--border_radius);
             margin-bottom: 20px;
             font-size: 28px;
             font-weight: bold;
@@ -160,7 +169,7 @@
         }
 
         .comarca-button.completed {
-            background-color: #28a745;
+            background-color: var(--green_color)
         }
 
         .comarca-button.failed {
@@ -248,9 +257,9 @@
                 index: 3,
                 comarca: "Camp de Turia",
                 enunciado: "Puntería Fluvial",
-                reto: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam consequuntur doloremque commodi reiciendis deserunt voluptate ex, explicabo eligendi nam temporibus necessitatibus et? Facere sapiente impedit illum laboriosam quos placeat tempore provident quis molestias ratione odit assumenda fuga magni hic eveniet quia voluptatum, at perspiciatis eos, mollitia delectus veniam! Saepe, sint.",
+                reto: "Busca 10 piedras planas y lisas. Desde una orilla de un cauce natural, debes lanzar las piedras intentando que lleguen a la orilla opuesta sin hundirse en el agua. Para completar el desafío, al menos 3 de tus 10 piedras deben llegar al otro lado. Cada piedra solo puede lanzarse una vez. Graba tus lanzamientos como prueba.",
                 additionalInfo: ""
-            }
+            },
         ];
 
         // Game state
@@ -297,6 +306,22 @@
         function showChallenge(index) {
             const challenge = data.find(c => c.index === index);
             if (!challenge) return;
+            
+            // Check if there's a different active challenge already open
+            if (gameState.activeChallenge !== null && gameState.activeChallenge !== index) {
+                const currentChallenge = data.find(c => c.index === gameState.activeChallenge);
+                const confirmed = confirm(
+                    `Ya tienes abierto el desafío de ${currentChallenge.comarca}. ` +
+                    `Para abrir ${challenge.comarca}, debes renunciar y fallar el desafío anterior. ¿Confirmar?`
+                );
+                
+                if (!confirmed) {
+                    return; // User cancelled, keep current challenge open
+                }
+                
+                // Fail the current challenge
+                failChallenge(gameState.activeChallenge, true); // Pass true to skip hiding
+            }
             
             // Check if this comarca hasn't been visited yet
             if (!gameState.visitedComarcas.has(index)) {
@@ -350,11 +375,13 @@
         }
 
         // Fail a challenge
-        function failChallenge(index) {
+        function failChallenge(index, skipHide = false) {
             gameState.comarcasStatus[index] = 'failed';
             
             updateStats();
-            hideActiveChallenge();
+            if (!skipHide) {
+                hideActiveChallenge();
+            }
             renderComarcaList();
         }
 

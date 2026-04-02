@@ -259,7 +259,8 @@
             visitadas: 0,
             conquistadas: 0,
             activeChallenge: null,
-            comarcasStatus: {} // { index: 'pending' | 'completed' | 'failed' }
+            comarcasStatus: {}, // { index: 'pending' | 'completed' | 'failed' }
+            visitedComarcas: new Set() // Track which comarcas have been visited
         };
 
         // Initialize the game
@@ -297,6 +298,20 @@
             const challenge = data.find(c => c.index === index);
             if (!challenge) return;
             
+            // Check if this comarca hasn't been visited yet
+            if (!gameState.visitedComarcas.has(index)) {
+                const confirmed = confirm(`¿Quieres leer el desafío de ${challenge.comarca}?`);
+                if (!confirmed) {
+                    return; // User cancelled, don't show the challenge
+                }
+                
+                // Mark as visited and increment count
+                gameState.visitedComarcas.add(index);
+                gameState.visitadas++;
+                updateStats();
+                renderComarcaList(); // Update the visual state
+            }
+            
             gameState.activeChallenge = index;
             
             const container = document.getElementById('active-challenge');
@@ -321,11 +336,13 @@
 
         // Complete a challenge
         function completeChallenge(index) {
-            if (gameState.comarcasStatus[index] !== 'completed') {
+            const wasCompleted = gameState.comarcasStatus[index] === 'completed';
+            
+            if (!wasCompleted) {
                 gameState.conquistadas++;
             }
+            
             gameState.comarcasStatus[index] = 'completed';
-            gameState.visitadas++;
             
             updateStats();
             hideActiveChallenge();
@@ -334,9 +351,6 @@
 
         // Fail a challenge
         function failChallenge(index) {
-            if (gameState.comarcasStatus[index] !== 'failed') {
-                gameState.visitadas++;
-            }
             gameState.comarcasStatus[index] = 'failed';
             
             updateStats();

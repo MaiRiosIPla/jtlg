@@ -60,6 +60,11 @@
             margin-bottom: 20px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .camp-card.active {
+            display: block;
         }
 
         .camp-header {
@@ -83,11 +88,24 @@
             font-weight: 600;
         }
 
-        .camp-content p {
+        .camp-content .reto-text {
             color: #2c3e50;
             font-size: 16px;
             line-height: 1.6;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .camp-content .additional-info {
+            color: #6c757d;
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.5;
             margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
         }
 
         .button-group {
@@ -141,6 +159,18 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
+        .comarca-button.completed {
+            background-color: #28a745;
+        }
+
+        .comarca-button.failed {
+            background-color: #6c757d;
+        }
+
+        .comarca-button.visited {
+            opacity: 0.7;
+        }
+
         @media (max-width: 600px) {
             .header {
                 font-size: 24px;
@@ -182,48 +212,153 @@
     <div class="container">
         <!-- Status Card -->
         <div class="status-card">
-            <h2>User1 & User2</h2>
-            <p>0 Visitadas / 1 Conquistadas</p>
+            <h2 id="players-names">User1 & User2</h2>
+            <p id="stats">0 Visitadas / 0 Conquistadas</p>
         </div>
 
-        <!-- Camp de Turia Card -->
-        <div class="camp-card">
-            <div class="camp-header">Camp de Turia</div>
-            <div class="camp-content">
-                <h3>Puntería Fluvial</h3>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam consequuntur doloremque commodi reiciendis deserunt voluptate ex, explicabo eligendi nam temporibus necessitatibus et? Facere sapiente impedit illum laboriosam quos placeat tempore provident quis molestias ratione odit assumenda fuga magni hic eveniet quia voluptatum, at perspiciatis eos, mollitia delectus veniam! Saepe, sint.</p>
-                <div class="button-group">
-                    <button class="btn btn-fallar">Fallar</button>
-                    <button class="btn btn-completar">Completar</button>
-                </div>
-            </div>
+        <!-- Active Challenge Card (populated dynamically) -->
+        <div id="active-challenge" class="camp-card">
+            <!-- Dynamically filled -->
         </div>
 
-        <!-- Comarca Buttons -->
-        <div class="comarca-button">La Ribera Baixa</div>
-        <div class="comarca-button">La Ribera Alta</div>
-        <div class="comarca-button">La Safor</div>
+        <!-- Comarca Buttons (populated dynamically) -->
+        <div id="comarca-list">
+            <!-- Dynamically filled -->
+        </div>
     </div>
 
     <script>
-        // Add click handlers for buttons
-        document.querySelectorAll('.btn-fallar').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Misión fallada');
-            });
-        });
+        // Sample data structure
+        const data = [
+            {
+                index: 1,
+                comarca: "La Plana Alta",
+                enunciado: "Salvamento del Huevo",
+                reto: "Ve a un supermercado y compra materiales para proteger a un huevo. Solo puedes usar elementos o productos que encuentres en el supermercado. Tienes un presupuesto máximo de 10€ y 15 minutos para hacer tus compras. Luego, usando únicamente los materiales comprados, construye una estructura protectora alrededor de un huevo crudo. Encuentra un lugar donde puedas lanzar tu huevo protegido desde una altura de al menos 5 metros. Ambos participantes del equipo deben lanzar su huevo. Para completar el desafío, los dos huevos deben sobrevivir intactos a la caída sin romperse.",
+                additionalInfo: "Si hay alguna duda sobre el reto, William Osman tiene una serie donde ejecuta este reto y explica las normas del mismo"
+            },
+            {
+                index: 2,
+                comarca: "La Llotja de la Seda",
+                enunciado: "Las Tres Murallas Históricas de Valencia",
+                reto: "Valencia estuvo protegida por tres murallas distintas a lo largo de su historia.\nTendréis que encontrar y fotografiar un fragmento visible de cada una de las tres murallas.\nAdemás, deberéis atravesar tres puertas diferentes, cada una perteneciente a, al menos, dos murallas distintas, y haceros un selfie justo al pasar por dentro de cada una.\nSolo tenéis un intento para completar el reto. Podéis planificar la ruta, pero todas las fotos deben hacerse durante la prueba. Si no conseguís las tres murallas y las tres puertas correctamente, falláis.",
+                additionalInfo: "La muralla musulmana tiene puertas en las que sus construcciones no corresponden a la época de construcción de la muralla, sino que son posteriores, siguen siendo válidas como parte de la muralla musulmana."
+            },
+            {
+                index: 3,
+                comarca: "Camp de Turia",
+                enunciado: "Puntería Fluvial",
+                reto: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam consequuntur doloremque commodi reiciendis deserunt voluptate ex, explicabo eligendi nam temporibus necessitatibus et? Facere sapiente impedit illum laboriosam quos placeat tempore provident quis molestias ratione odit assumenda fuga magni hic eveniet quia voluptatum, at perspiciatis eos, mollitia delectus veniam! Saepe, sint.",
+                additionalInfo: ""
+            }
+        ];
 
-        document.querySelectorAll('.btn-completar').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('¡Misión completada!');
-            });
-        });
+        // Game state
+        let gameState = {
+            players: "User1 & User2",
+            visitadas: 0,
+            conquistadas: 0,
+            activeChallenge: null,
+            comarcasStatus: {} // { index: 'pending' | 'completed' | 'failed' }
+        };
 
-        document.querySelectorAll('.comarca-button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Seleccionada: ' + this.textContent);
+        // Initialize the game
+        function init() {
+            renderComarcaList();
+            updateStats();
+        }
+
+        // Render all comarca buttons
+        function renderComarcaList() {
+            const container = document.getElementById('comarca-list');
+            container.innerHTML = '';
+            
+            data.forEach(challenge => {
+                const button = document.createElement('div');
+                button.className = 'comarca-button';
+                button.textContent = challenge.comarca;
+                button.dataset.index = challenge.index;
+                
+                // Apply status classes
+                const status = gameState.comarcasStatus[challenge.index];
+                if (status === 'completed') {
+                    button.classList.add('completed');
+                } else if (status === 'failed') {
+                    button.classList.add('failed');
+                }
+                
+                button.addEventListener('click', () => showChallenge(challenge.index));
+                container.appendChild(button);
             });
-        });
+        }
+
+        // Show a specific challenge
+        function showChallenge(index) {
+            const challenge = data.find(c => c.index === index);
+            if (!challenge) return;
+            
+            gameState.activeChallenge = index;
+            
+            const container = document.getElementById('active-challenge');
+            container.className = 'camp-card active';
+            
+            container.innerHTML = `
+                <div class="camp-header">${challenge.comarca}</div>
+                <div class="camp-content">
+                    <h3>${challenge.enunciado}</h3>
+                    <div class="reto-text">${challenge.reto}</div>
+                    ${challenge.additionalInfo ? `<div class="additional-info"><strong>Información adicional:</strong> ${challenge.additionalInfo}</div>` : ''}
+                    <div class="button-group">
+                        <button class="btn btn-fallar" onclick="failChallenge(${index})">Fallar</button>
+                        <button class="btn btn-completar" onclick="completeChallenge(${index})">Completar</button>
+                    </div>
+                </div>
+            `;
+            
+            // Scroll to the challenge
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Complete a challenge
+        function completeChallenge(index) {
+            if (gameState.comarcasStatus[index] !== 'completed') {
+                gameState.conquistadas++;
+            }
+            gameState.comarcasStatus[index] = 'completed';
+            gameState.visitadas++;
+            
+            updateStats();
+            hideActiveChallenge();
+            renderComarcaList();
+        }
+
+        // Fail a challenge
+        function failChallenge(index) {
+            if (gameState.comarcasStatus[index] !== 'failed') {
+                gameState.visitadas++;
+            }
+            gameState.comarcasStatus[index] = 'failed';
+            
+            updateStats();
+            hideActiveChallenge();
+            renderComarcaList();
+        }
+
+        // Hide the active challenge card
+        function hideActiveChallenge() {
+            const container = document.getElementById('active-challenge');
+            container.classList.remove('active');
+            gameState.activeChallenge = null;
+        }
+
+        // Update stats display
+        function updateStats() {
+            document.getElementById('stats').textContent = 
+                `${gameState.visitadas} Visitadas / ${gameState.conquistadas} Conquistadas`;
+        }
+
+        // Initialize on page load
+        init();
     </script>
 </body>
 </html>

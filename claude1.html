@@ -40,6 +40,12 @@
             margin: 0 auto;
             padding: 20px;
         }
+        .btn-reset {
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: var(--jet_lag_black);
+            color: var(--white_color);
+        }
  
         .status-card {
             background: var(--blue_color);
@@ -212,6 +218,10 @@
         <div id="comarca-list">
             <!-- Dynamically filled -->
         </div>
+
+        <button class="btn btn-reset" onclick="resetGame()">
+            Reiniciar partida
+        </button>
     </div>
  
     <script>
@@ -282,6 +292,8 @@
 
             // Actualizar UI
             document.getElementById('players-names').textContent = gameState.players;
+            
+            saveGame();
         }
 
         function saveGame() {
@@ -311,6 +323,20 @@
             return true;
         }
  
+        function resetGame() {
+            const confirmed = confirm(
+                '¿Estás seguro de que quieres reiniciar la partida?\n' +
+                'Se borrarán todos los datos guardados y no se podrá deshacer.'
+            );
+
+            if (!confirmed) return;
+
+            // Borrar datos guardados
+            localStorage.removeItem('comarquesGameState');
+
+            // Recargar la página
+            location.reload();
+        }
         // Render all comarca cards
         function renderComarcaList() {
             const container = document.getElementById('comarca-list');
